@@ -3,13 +3,14 @@ import {ComponentManager} from "../component/ComponentManager";
 import {Entity} from "../entity/Entity";
 import {Component} from "../component/Component";
 import {System} from "../system/System";
+import {Values} from "../types";
 
 const FPS = 60;
 
-export class World {
-    private entityManager: EntityManager;
+export class World<C extends Record<keyof C, Values<C>>> {
+    private entityManager: EntityManager<C>;
     private componentManager: ComponentManager;
-    private systems: System[];
+    private systems: System<C>[];
     private paused: boolean;
 
     constructor() {
@@ -45,11 +46,11 @@ export class World {
         return this.entityManager.addEntity(id);
     }
 
-    removeEntity(entity: Entity | string) {
+    removeEntity(entity: Entity<C> | string) {
         this.entityManager.removeEntity(entity)
     }
 
-    entityAddComponent(entity: Entity | string, component: Component) {
+    entityAddComponent(entity: Entity<C> | string, component: Component<C>) {
         if (!this.componentManager.isComponentRegistered(component.name)) {
             return;
         }
@@ -67,7 +68,7 @@ export class World {
         this.updateSystemsWithEntities();
     }
 
-    entityRemoveComponent(entity: Entity | string, componentName: string) {
+    entityRemoveComponent(entity: Entity<C> | string, componentName: string) {
         const _entity = this.getEntity(typeof entity === 'string' ? entity : entity.id);
 
         if (!_entity) {
@@ -93,7 +94,7 @@ export class World {
         }
     }
 
-    registerSystem(system: System) {
+    registerSystem(system: System<C>) {
         this.systems.push(system);
 
         this.updateSystemsWithEntities();

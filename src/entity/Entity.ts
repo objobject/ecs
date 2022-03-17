@@ -1,6 +1,7 @@
-import { ComponentI, EntityI } from "../types";
+import {ComponentI, Flatten, Values} from "../types";
+import {Component} from "../component/Component";
 
-export class Entity implements EntityI {
+export class Entity<C extends Record<keyof C, Values<C>>> {
 	id: string;
 	components: Map<string, ComponentI>;
 	
@@ -9,7 +10,7 @@ export class Entity implements EntityI {
 		this.components = new Map();
 	}
 	
-	addComponent(component: ComponentI) {
+	addComponent<T extends Record<keyof T, Values<T>>>(component: Component<T>) {
 		this.components.set(component.name, component);
 		return this;
 	};
@@ -19,8 +20,8 @@ export class Entity implements EntityI {
 		return this;
 	};
 
-	getData() {
-		let data = {};
+	getData(): Flatten<C> {
+		let data = {} as Flatten<C>;
 
 		[...this.components.values()].forEach(value => {
 			data = {...data, ...value.value};

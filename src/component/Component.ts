@@ -1,10 +1,8 @@
-import { ComponentI } from "../types";
-
-export class Component<T extends Record<string, unknown> = {}> implements ComponentI {
+export class Component<C> {
 	name: string;
-	value: T;
+	value: C;
 
-	constructor(name: string, data: T) {
+	constructor(name: string, data: C) {
 		this.name = name;
 		this.value = data;
 	}

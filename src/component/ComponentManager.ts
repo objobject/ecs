@@ -1,6 +1,4 @@
-import { ComponentManagerI } from "../types";
-
-export class ComponentManager implements ComponentManagerI {
+export class ComponentManager {
 	components: string[];
 
 	constructor() {
