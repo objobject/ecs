@@ -7,29 +7,25 @@ import {Values} from "../types";
 
 const FPS = 60;
 
-export class World<C extends Record<keyof C, Values<C>>> {
+export class World<C extends Record<keyof C, Values<C>>, K extends Record<keyof K, Values<K>>> {
     private entityManager: EntityManager<C>;
     private componentManager: ComponentManager;
-    private systems: System<C>[];
+    private systems: System<C, K>[];
     private paused: boolean;
+    private context: K;
 
-    constructor() {
+    constructor(context: K) {
         this.entityManager = new EntityManager();
         this.componentManager = new ComponentManager();
         this.systems = [];
         this.paused = false;
+        this.context = context;
     }
 
     loop() {
         const loopOnce = () => {
             if (!this.paused) {
-                const frameStart = performance.now();
                 this.systems.forEach(sys => sys.run());
-                const frameEnd = performance.now();
-
-                if (Math.random() > 0.99) {
-                    console.log(frameEnd - frameStart);
-                }
             }
 
             setTimeout(() => loopOnce(), 1000 / FPS)
@@ -94,7 +90,8 @@ export class World<C extends Record<keyof C, Values<C>>> {
         }
     }
 
-    registerSystem(system: System<C>) {
+    registerSystem(system: System<C, K>) {
+        system.setContext(this.context);
         this.systems.push(system);
 
         this.updateSystemsWithEntities();
