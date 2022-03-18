@@ -2,7 +2,7 @@
   "name": "ecs",
   "version": "0.0.1",
   "description": "My attempt at creating ECS game engine from scratch. I've got no game development experience, but I like games and programming, so why not try that?",
-  "main": "src/index.ts",
+  "main": "index.js",
   "repository": "https://github.com/objobject/ecs.git",
   "author": "objobject <frytek97@gmail.com>",
   "license": "MIT",

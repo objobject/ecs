@@ -7,8 +7,8 @@ module.exports = {
         main: "./src/index.ts",
     },
     output: {
-        path: path.resolve(__dirname, './build'),
-        filename: "[name]-bundle.js" // <--- Will be compiled to this single file
+        path: path.resolve(__dirname, '.'),
+        filename: "index.js" // <--- Will be compiled to this single file
     },
     resolve: {
         extensions: [".ts", ".tsx", ".js"],
