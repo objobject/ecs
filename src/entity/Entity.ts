@@ -1,4 +1,4 @@
-import {ComponentI, Flatten, Values} from "../types";
+import {ComponentI, Values} from "../types";
 import {Component} from "../component/Component";
 
 export class Entity<C extends Record<keyof C, Values<C>>> {
@@ -20,8 +20,8 @@ export class Entity<C extends Record<keyof C, Values<C>>> {
 		return this;
 	};
 
-	getData(): Flatten<C> {
-		let data = {} as Flatten<C>;
+	getData(): C {
+		let data = {} as C;
 
 		[...this.components.values()].forEach(value => {
 			data = {...data, ...value.value};
